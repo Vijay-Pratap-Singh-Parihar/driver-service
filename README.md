@@ -71,3 +71,4 @@ For endpoint payloads and response schemas refer to `API.md` and `CURL_EXAMPLES.
 - **Kafka connection failures**: verify the broker list, ensure the Kafka container is healthy, and that ports `9092/9093` are not blocked.
 - **Metrics or event lag**: check the service logs (structured JSON) for correlation ids and Kafka publish errors.
 
+
