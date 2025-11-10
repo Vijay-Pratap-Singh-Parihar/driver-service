@@ -15,7 +15,7 @@ export class DriverRepositoryMemory implements DriverRepositoryPort {
 
   async findByPlate(plate: string): Promise<Driver | null> {
     const drivers = Array.from(this.drivers.values());
-    return drivers.find((d) => d.plate === plate) || null;
+    return drivers.find((d) => d.vehiclePlate === plate) || null;
   }
 
   async findAll(): Promise<Driver[]> {

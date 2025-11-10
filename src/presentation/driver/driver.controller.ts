@@ -49,7 +49,7 @@ export class DriverController {
     const correlationId = res.locals.correlationId as string;
     try {
       const driver = await this.registerDriver.execute(req.body);
-      Logger.info('Driver registered', correlationId, { driverId: driver.id, plate: driver.plate });
+      Logger.info('Driver registered', correlationId, { driverId: driver.id, vehiclePlate: driver.vehiclePlate });
       res.status(201).json(driver);
     } catch (e) {
       Logger.error('Failed to register driver', correlationId, { error: String(e), body: req.body });
@@ -60,8 +60,8 @@ export class DriverController {
   setStatus = async (req: Request, res: Response, next: NextFunction) => {
     const correlationId = res.locals.correlationId as string;
     try {
-      const { isActive } = req.body as { isActive: boolean };
-      const driver = await this.toggleStatus.execute(req.params.id, isActive);
+      const { is_active } = req.body as { is_active: boolean };
+      const driver = await this.toggleStatus.execute(req.params.id, is_active);
       Logger.info('Driver status changed', correlationId, { driverId: driver.id, isActive: driver.isActive });
       res.json(driver);
     } catch (e) {

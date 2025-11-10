@@ -8,18 +8,18 @@ export class DriverEventFactory {
       driverId: driver.id,
       timestamp: new Date().toISOString(),
       data: {
-        id: driver.id,
+        driver_id: driver.driverId,
         name: driver.name,
-        vehicle: driver.vehicle,
-        plate: driver.plate,
-        isActive: driver.isActive,
-        vehicleType: driver.vehicleType,
-        vehicleModel: driver.vehicleModel,
-        vehicleYear: driver.vehicleYear,
-        vehicleColor: driver.vehicleColor,
-        vehicleCapacity: driver.vehicleCapacity,
-        createdAt: driver.createdAt.toISOString(),
-        updatedAt: driver.updatedAt.toISOString(),
+        phone: driver.phone,
+        vehicle_type: driver.vehicleType,
+        vehicle_plate: driver.vehiclePlate,
+        is_active: driver.isActive,
+        vehicle_model: driver.vehicleModel,
+        vehicle_year: driver.vehicleYear,
+        vehicle_color: driver.vehicleColor,
+        vehicle_capacity: driver.vehicleCapacity,
+        created_at: driver.createdAt.toISOString(),
+        updated_at: driver.updatedAt.toISOString(),
       },
     };
   }
@@ -30,13 +30,14 @@ export class DriverEventFactory {
       driverId: driver.id,
       timestamp: new Date().toISOString(),
       data: {
-        id: driver.id,
+        driver_id: driver.driverId,
         name: driver.name,
-        isActive: driver.isActive,
-        oldStatus,
-        newStatus: driver.isActive,
-        plate: driver.plate,
-        updatedAt: driver.updatedAt.toISOString(),
+        phone: driver.phone,
+        is_active: driver.isActive,
+        old_status: oldStatus,
+        new_status: driver.isActive,
+        vehicle_plate: driver.vehiclePlate,
+        updated_at: driver.updatedAt.toISOString(),
       },
     };
   }
@@ -47,32 +48,32 @@ export class DriverEventFactory {
       driverId: driver.id,
       timestamp: new Date().toISOString(),
       data: {
-        id: driver.id,
+        driver_id: driver.driverId,
         name: driver.name,
-        vehicle: driver.vehicle,
-        plate: driver.plate,
-        isActive: driver.isActive,
-        vehicleType: driver.vehicleType,
-        vehicleModel: driver.vehicleModel,
-        vehicleYear: driver.vehicleYear,
-        vehicleColor: driver.vehicleColor,
-        vehicleCapacity: driver.vehicleCapacity,
+        phone: driver.phone,
+        vehicle_type: driver.vehicleType,
+        vehicle_plate: driver.vehiclePlate,
+        is_active: driver.isActive,
+        vehicle_model: driver.vehicleModel,
+        vehicle_year: driver.vehicleYear,
+        vehicle_color: driver.vehicleColor,
+        vehicle_capacity: driver.vehicleCapacity,
         changes,
-        updatedAt: driver.updatedAt.toISOString(),
+        updated_at: driver.updatedAt.toISOString(),
       },
     };
   }
 
-  static createDriverDeletedEvent(driverId: string, driverName: string, plate: string): DriverEvent {
+  static createDriverDeletedEvent(driverId: string, driverName: string, vehiclePlate: string): DriverEvent {
     return {
       eventType: 'driver.deleted',
       driverId,
       timestamp: new Date().toISOString(),
       data: {
-        id: driverId,
+        driver_id: driverId,
         name: driverName,
-        plate,
-        deletedAt: new Date().toISOString(),
+        vehicle_plate: vehiclePlate,
+        deleted_at: new Date().toISOString(),
       },
     };
   }

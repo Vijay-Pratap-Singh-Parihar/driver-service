@@ -19,6 +19,7 @@ import { correlationIdMiddleware } from './presentation/middleware/correlation-i
 import { Logger } from './shared/logging/logger';
 import { createMetricsHandler } from './infrastructure/metrics/metrics';
 import { createRateLimiter } from './presentation/middleware/rate-limit';
+import { seedDriversOnStartup } from './infrastructure/bootstrap/driver-data-seeder';
 
 const app = express();
 app.use(express.json());
@@ -80,8 +81,13 @@ async function startServer() {
   try {
     await mongoConfig.connect();
     await kafkaConfig.connect();
+    await seedDriversOnStartup({
+      driverRepository,
+      activityRepository,
+      eventPublisher,
+    });
     app.listen(PORT, () => {
-  Logger.info(`🚕 Driver Service running on port ${PORT}`);
+      Logger.info(`🚕 Driver Service running on port ${PORT}`);
     });
   } catch (error) {
     Logger.error('Failed to start server', undefined, { error: String(error) });

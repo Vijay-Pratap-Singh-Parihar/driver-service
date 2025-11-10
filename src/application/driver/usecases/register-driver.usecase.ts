@@ -1,6 +1,6 @@
 import { DriverRepositoryPort } from '../../../domain/driver/driver.repository.port';
 import { DriverActivityRepositoryPort } from '../../../domain/driver/driver-activity.repository.port';
-import { Driver } from '../../../domain/driver/driver.entity';
+import { Driver, DriverCreateProps } from '../../../domain/driver/driver.entity';
 import { DriverActivity, DriverActivityAction } from '../../../domain/driver/driver-activity.entity';
 import { ValidationError, ConflictError } from '../../../shared/errors/app-error';
 import { EventPublisherPort } from '../../../domain/messaging/event-publisher.port';
@@ -17,37 +17,43 @@ export class RegisterDriverUseCase {
   ) {}
 
   async execute(input: {
-    id: string;
+    driver_id: string;
     name: string;
-    vehicle: string;
-    plate: string;
-    vehicleType?: string;
-    vehicleModel?: string;
-    vehicleYear?: number;
-    vehicleColor?: string;
-    vehicleCapacity?: number;
+    phone: string;
+    vehicle_type: string;
+    vehicle_plate: string;
+    is_active?: boolean;
+    vehicle_model?: string;
+    vehicle_year?: number;
+    vehicle_color?: string;
+    vehicle_capacity?: number;
   }) {
-    if (!input.id || !input.name || !input.vehicle || !input.plate) {
-      throw new ValidationError('id, name, vehicle, plate are required');
+    if (!input.driver_id || !input.name || !input.phone || !input.vehicle_type || !input.vehicle_plate) {
+      throw new ValidationError('driver_id, name, phone, vehicle_type, vehicle_plate are required');
     }
 
-    // Check if plate already exists
-    const existingDriver = await this.repo.findByPlate(input.plate);
+    const existingById = await this.repo.findById(input.driver_id);
+    if (existingById) {
+      throw new ConflictError('driver_id already exists');
+    }
+
+    const existingDriver = await this.repo.findByPlate(input.vehicle_plate);
     if (existingDriver) {
-      throw new ConflictError('Plate number already exists');
+      throw new ConflictError('vehicle_plate already exists');
     }
 
-    const driver = Driver.create(
-      input.id,
-      input.name,
-      input.vehicle,
-      input.plate,
-      input.vehicleType,
-      input.vehicleModel,
-      input.vehicleYear,
-      input.vehicleColor,
-      input.vehicleCapacity
-    );
+    const driver = Driver.create({
+      driverId: input.driver_id,
+      name: input.name,
+      phone: input.phone,
+      vehicleType: input.vehicle_type,
+      vehiclePlate: input.vehicle_plate,
+      isActive: input.is_active,
+      vehicleModel: input.vehicle_model,
+      vehicleYear: input.vehicle_year,
+      vehicleColor: input.vehicle_color,
+      vehicleCapacity: input.vehicle_capacity,
+    });
     const savedDriver = await this.repo.save(driver);
     inc(METRIC_DRIVER_REGISTRATIONS_TOTAL, 1);
 

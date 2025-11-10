@@ -5,10 +5,10 @@ import { DriverActivityModel, DriverActivityDocument } from '../database/driver-
 export class DriverActivityRepositoryMongoDB implements DriverActivityRepositoryPort {
   async save(activity: DriverActivity): Promise<DriverActivity> {
     const activityDoc = {
-      driverId: activity.driverId,
+      driver_id: activity.driverId,
       action: activity.action,
-      oldValue: activity.oldValue,
-      newValue: activity.newValue,
+      old_value: activity.oldValue,
+      new_value: activity.newValue,
       timestamp: activity.timestamp,
       metadata: activity.metadata,
     };
@@ -19,14 +19,14 @@ export class DriverActivityRepositoryMongoDB implements DriverActivityRepository
   }
 
   async findByDriverId(driverId: string): Promise<DriverActivity[]> {
-    const activityDocs = await DriverActivityModel.find({ driverId })
+    const activityDocs = await DriverActivityModel.find({ driver_id: driverId })
       .sort({ timestamp: -1 })
       .exec();
     return activityDocs.map((doc) => this.mapToDomainEntity(doc));
   }
 
   async findByDriverIdAndAction(driverId: string, action: string): Promise<DriverActivity[]> {
-    const activityDocs = await DriverActivityModel.find({ driverId, action })
+    const activityDocs = await DriverActivityModel.find({ driver_id: driverId, action })
       .sort({ timestamp: -1 })
       .exec();
     return activityDocs.map((doc) => this.mapToDomainEntity(doc));
@@ -45,10 +45,10 @@ export class DriverActivityRepositoryMongoDB implements DriverActivityRepository
 
     return new DriverActivity(
       id,
-      activityDoc.driverId,
+      activityDoc.driver_id,
       activityDoc.action,
-      activityDoc.oldValue,
-      activityDoc.newValue,
+      activityDoc.old_value,
+      activityDoc.new_value,
       activityDoc.timestamp,
       activityDoc.metadata
     );

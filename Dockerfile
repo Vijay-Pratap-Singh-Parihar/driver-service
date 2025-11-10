@@ -13,6 +13,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci --omit=dev
 COPY --from=builder /app/dist ./dist
+COPY rhfd_drivers.csv ./rhfd_drivers.csv
 USER node
 EXPOSE 3001
 CMD ["node", "dist/main.js"]

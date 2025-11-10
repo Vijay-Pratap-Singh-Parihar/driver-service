@@ -36,7 +36,7 @@ export class DeleteDriverUseCase {
         DriverActivityAction.DELETED,
         null,
         null,
-        { driverName: driver.name, plate: driver.plate }
+        { name: driver.name, vehicle_plate: driver.vehiclePlate }
       );
       await this.activityRepo.save(activity);
     }
@@ -44,7 +44,7 @@ export class DeleteDriverUseCase {
     // Publish event to Kafka
     if (this.eventPublisher) {
       try {
-        const event = DriverEventFactory.createDriverDeletedEvent(driver.id, driver.name, driver.plate);
+        const event = DriverEventFactory.createDriverDeletedEvent(driver.id, driver.name, driver.vehiclePlate);
         const eventsTopicConfig = TOPIC_CONFIGS[KafkaTopics.DRIVER_EVENTS];
         const notificationsTopicConfig = TOPIC_CONFIGS[KafkaTopics.DRIVER_NOTIFICATIONS];
         const partition = getPartitionForDriver(driver.id, eventsTopicConfig.partitions || 3);

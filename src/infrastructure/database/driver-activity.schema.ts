@@ -3,25 +3,25 @@ import { DriverActivityAction } from '../../domain/driver/driver-activity.entity
 
 export interface DriverActivityDocument extends Document {
   _id: Types.ObjectId;
-  driverId: string;
+  driver_id: string;
   action: DriverActivityAction;
-  oldValue: string | null;
-  newValue: string | null;
+  old_value: string | null;
+  new_value: string | null;
   timestamp: Date;
   metadata?: Record<string, any>;
 }
 
 const DriverActivitySchema = new Schema(
   {
-    driverId: { type: String, required: true, index: true },
+    driver_id: { type: String, required: true, index: true },
     action: {
       type: String,
       enum: Object.values(DriverActivityAction),
       required: true,
       index: true,
     },
-    oldValue: { type: String, default: null },
-    newValue: { type: String, default: null },
+    old_value: { type: String, default: null },
+    new_value: { type: String, default: null },
     timestamp: { type: Date, default: Date.now, index: true },
     metadata: { type: Schema.Types.Mixed },
   },
@@ -32,7 +32,7 @@ const DriverActivitySchema = new Schema(
 );
 
 // Create indexes
-DriverActivitySchema.index({ driverId: 1, timestamp: -1 });
+DriverActivitySchema.index({ driver_id: 1, timestamp: -1 });
 DriverActivitySchema.index({ action: 1 });
 DriverActivitySchema.index({ timestamp: -1 });
 

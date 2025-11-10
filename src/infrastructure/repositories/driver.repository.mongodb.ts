@@ -4,29 +4,33 @@ import { DriverModel, DriverDocument } from '../database/driver.schema';
 
 export class DriverRepositoryMongoDB implements DriverRepositoryPort {
   async save(driver: Driver): Promise<Driver> {
-    const driverDoc: Partial<DriverDocument> = {
+    const driverDoc: Partial<DriverDocument> & { _id?: string } = {
+      driver_id: driver.driverId,
       name: driver.name,
-      vehicle: driver.vehicle,
-      plate: driver.plate,
-      isActive: driver.isActive ?? true,
-      vehicleType: driver.vehicleType,
-      vehicleModel: driver.vehicleModel,
-      vehicleYear: driver.vehicleYear,
-      vehicleColor: driver.vehicleColor,
-      vehicleCapacity: driver.vehicleCapacity,
+      phone: driver.phone,
+      vehicle_type: driver.vehicleType,
+      vehicle_plate: driver.vehiclePlate,
+      plate: driver.vehiclePlate,
+      is_active: driver.isActive ?? true,
+      vehicle_model: driver.vehicleModel,
+      vehicle_year: driver.vehicleYear,
+      vehicle_color: driver.vehicleColor,
+      vehicle_capacity: driver.vehicleCapacity,
     };
 
     if (driver.id) {
-      const existingDriver = await DriverModel.findById(driver.id);
+      const existingDriver = await DriverModel.findOne({
+        $or: [{ _id: driver.id }, { driver_id: driver.driverId }],
+      });
       if (existingDriver) {
-        // Update existing driver
         const updatedDriver = await DriverModel.findByIdAndUpdate(
-          driver.id,
+          existingDriver._id,
           { $set: driverDoc },
           { new: true, runValidators: true }
         );
         return this.mapToDomainEntity(updatedDriver!);
       }
+      driverDoc._id = driver.id;
     }
     // Create new driver
     const newDriver = new DriverModel(driverDoc);
@@ -35,7 +39,7 @@ export class DriverRepositoryMongoDB implements DriverRepositoryPort {
   }
 
   async findById(id: string): Promise<Driver | null> {
-    const driverDoc = await DriverModel.findById(id);
+    const driverDoc = await DriverModel.findOne({ $or: [{ _id: id }, { driver_id: id }] });
     if (!driverDoc) {
       return null;
     }
@@ -43,7 +47,7 @@ export class DriverRepositoryMongoDB implements DriverRepositoryPort {
   }
 
   async findByPlate(plate: string): Promise<Driver | null> {
-    const driverDoc = await DriverModel.findOne({ plate });
+    const driverDoc = await DriverModel.findOne({ vehicle_plate: plate });
     if (!driverDoc) {
       return null;
     }
@@ -56,7 +60,7 @@ export class DriverRepositoryMongoDB implements DriverRepositoryPort {
   }
 
   async delete(id: string): Promise<boolean> {
-    const result = await DriverModel.findByIdAndDelete(id);
+    const result = await DriverModel.findOneAndDelete({ $or: [{ _id: id }, { driver_id: id }] });
     return !!result;
   }
 
@@ -74,17 +78,18 @@ export class DriverRepositoryMongoDB implements DriverRepositoryPort {
 
     return new Driver(
       id,
+      driverDoc.driver_id,
       driverDoc.name,
-      driverDoc.vehicle,
-      driverDoc.plate,
-      driverDoc.isActive ?? true,
+      driverDoc.phone,
+      driverDoc.vehicle_type,
+      driverDoc.vehicle_plate,
+      driverDoc.is_active ?? true,
       (driverDoc as any)?.createdAt || new Date(),
       (driverDoc as any)?.updatedAt || new Date(),
-      driverDoc.vehicleType,
-      driverDoc.vehicleModel,
-      driverDoc.vehicleYear,
-      driverDoc.vehicleColor,
-      driverDoc.vehicleCapacity
+      driverDoc.vehicle_model,
+      driverDoc.vehicle_year,
+      driverDoc.vehicle_color,
+      driverDoc.vehicle_capacity
     );
   }
 }

@@ -37,10 +37,11 @@ curl -X GET http://localhost:3001/v1/drivers/DRIVER_ID
 curl -X POST http://localhost:3001/v1/drivers \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "driver1",
+    "driver_id": "driver1",
     "name": "John Doe",
-    "vehicle": "Sedan",
-    "plate": "ABC123"
+    "phone": "555-0001",
+    "vehicle_type": "Car",
+    "vehicle_plate": "ABC123"
   }'
 ```
 
@@ -50,15 +51,16 @@ curl -X POST http://localhost:3001/v1/drivers \
 curl -X POST http://localhost:3001/v1/drivers \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "driver1",
+    "driver_id": "driver1",
     "name": "John Doe",
-    "vehicle": "Sedan",
-    "plate": "ABC123",
-    "vehicleType": "Car",
-    "vehicleModel": "Toyota Camry",
-    "vehicleYear": 2020,
-    "vehicleColor": "Blue",
-    "vehicleCapacity": 4
+    "phone": "555-0001",
+    "vehicle_type": "Car",
+    "vehicle_plate": "ABC123",
+    "is_active": true,
+    "vehicle_model": "Toyota Camry",
+    "vehicle_year": 2020,
+    "vehicle_color": "Blue",
+    "vehicle_capacity": 4
   }'
 ```
 
@@ -72,7 +74,9 @@ curl -X PUT http://localhost:3001/v1/drivers/DRIVER_ID \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Updated",
-    "vehicle": "SUV"
+    "phone": "555-9999",
+    "vehicle_type": "SUV",
+    "vehicle_plate": "XYZ999"
   }'
 ```
 
@@ -82,11 +86,10 @@ curl -X PUT http://localhost:3001/v1/drivers/DRIVER_ID \
 curl -X PUT http://localhost:3001/v1/drivers/DRIVER_ID \
   -H "Content-Type: application/json" \
   -d '{
-    "vehicleType": "SUV",
-    "vehicleModel": "Toyota RAV4",
-    "vehicleYear": 2022,
-    "vehicleColor": "Red",
-    "vehicleCapacity": 5
+    "vehicle_model": "Toyota RAV4",
+    "vehicle_year": 2022,
+    "vehicle_color": "Red",
+    "vehicle_capacity": 5
   }'
 ```
 
@@ -97,7 +100,7 @@ curl -X PUT http://localhost:3001/v1/drivers/DRIVER_ID \
 ```bash
 curl -X PUT http://localhost:3001/v1/drivers/DRIVER_ID/status \
   -H "Content-Type: application/json" \
-  -d '{"isActive": true}'
+  -d '{"is_active": true}'
 ```
 
 ## Toggle Driver Status (Deactivate)
@@ -105,7 +108,7 @@ curl -X PUT http://localhost:3001/v1/drivers/DRIVER_ID/status \
 ```bash
 curl -X PUT http://localhost:3001/v1/drivers/DRIVER_ID/status \
   -H "Content-Type: application/json" \
-  -d '{"isActive": false}'
+  -d '{"is_active": false}'
 ```
 
 ---
@@ -136,19 +139,19 @@ curl -X GET http://localhost:3001/health
 DRIVER_RESPONSE=$(curl -s -X POST http://localhost:3001/v1/drivers \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "driver1",
+    "driver_id": "driver1",
     "name": "John Doe",
-    "vehicle": "Sedan",
-    "plate": "ABC123",
-    "vehicleType": "Car",
-    "vehicleModel": "Toyota Camry",
-    "vehicleYear": 2020,
-    "vehicleColor": "Blue",
-    "vehicleCapacity": 4
+    "phone": "555-0001",
+    "vehicle_type": "Car",
+    "vehicle_plate": "ABC123",
+    "vehicle_model": "Toyota Camry",
+    "vehicle_year": 2020,
+    "vehicle_color": "Blue",
+    "vehicle_capacity": 4
   }')
 
 # Extract driver ID (requires jq)
-DRIVER_ID=$(echo $DRIVER_RESPONSE | jq -r '.id')
+DRIVER_ID=$(echo $DRIVER_RESPONSE | jq -r '.driver_id')
 echo "Driver ID: $DRIVER_ID"
 
 # 3. Get driver
@@ -157,12 +160,15 @@ curl -X GET http://localhost:3001/v1/drivers/$DRIVER_ID
 # 4. Update driver
 curl -X PUT http://localhost:3001/v1/drivers/$DRIVER_ID \
   -H "Content-Type: application/json" \
-  -d '{"name": "John Updated"}'
+  -d '{
+    "name": "John Updated",
+    "phone": "555-9999"
+  }'
 
 # 5. Toggle status
 curl -X PUT http://localhost:3001/v1/drivers/$DRIVER_ID/status \
   -H "Content-Type: application/json" \
-  -d '{"isActive": false}'
+  -d '{"is_active": false}'
 
 # 6. Get activity
 curl -X GET http://localhost:3001/v1/drivers/$DRIVER_ID/activity
@@ -192,7 +198,7 @@ curl -X GET http://localhost:3001/v1/drivers/DRIVER_ID/activity | jq '.'
 
 ```bash
 BASE_URL="http://localhost:3001"
-DRIVER_ID="507f1f77bcf86cd799439011"
+DRIVER_ID="driver1"
 
 # Get driver
 curl -X GET $BASE_URL/v1/drivers/$DRIVER_ID
@@ -200,12 +206,12 @@ curl -X GET $BASE_URL/v1/drivers/$DRIVER_ID
 # Update driver
 curl -X PUT $BASE_URL/v1/drivers/$DRIVER_ID \
   -H "Content-Type: application/json" \
-  -d '{"name": "Updated Name"}'
+  -d '{"name": "Updated Name", "phone": "555-9999"}'
 
 # Toggle status
 curl -X PUT $BASE_URL/v1/drivers/$DRIVER_ID/status \
   -H "Content-Type: application/json" \
-  -d '{"isActive": true}'
+  -d '{"is_active": true}'
 
 # Get activity
 curl -X GET $BASE_URL/v1/drivers/$DRIVER_ID/activity
@@ -228,29 +234,33 @@ Invoke-RestMethod -Uri "http://localhost:3001/health" -Method Get
 Invoke-RestMethod -Uri "http://localhost:3001/v1/drivers" -Method Get
 
 # Get driver by ID
-$driverId = "507f1f77bcf86cd799439011"
+$driverId = "driver1"
 Invoke-RestMethod -Uri "http://localhost:3001/v1/drivers/$driverId" -Method Get
 
 # Register driver
 $body = @{
-    id = "driver1"
-    name = "John Doe"
-    vehicle = "Sedan"
-    plate = "ABC123"
+    driver_id    = "driver1"
+    name         = "John Doe"
+    phone        = "555-0001"
+    vehicle_type = "Car"
+    vehicle_plate = "ABC123"
 } | ConvertTo-Json
 
 Invoke-RestMethod -Uri "http://localhost:3001/v1/drivers" -Method Post -Body $body -ContentType "application/json"
 
 # Update driver
 $updateBody = @{
-    name = "John Updated"
+    name         = "John Updated"
+    phone        = "555-9999"
+    vehicle_type = "SUV"
+    vehicle_plate = "XYZ999"
 } | ConvertTo-Json
 
 Invoke-RestMethod -Uri "http://localhost:3001/v1/drivers/$driverId" -Method Put -Body $updateBody -ContentType "application/json"
 
 # Toggle status
 $statusBody = @{
-    isActive = $false
+    is_active = $false
 } | ConvertTo-Json
 
 Invoke-RestMethod -Uri "http://localhost:3001/v1/drivers/$driverId/status" -Method Put -Body $statusBody -ContentType "application/json"

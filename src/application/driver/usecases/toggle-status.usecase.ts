@@ -17,7 +17,7 @@ export class ToggleDriverStatusUseCase {
 
   async execute(id: string, isActive: boolean) {
     if (typeof isActive !== 'boolean') {
-      throw new ValidationError('isActive must be boolean');
+      throw new ValidationError('is_active must be boolean');
     }
     const driver = await this.repo.findById(id);
     if (!driver) throw new NotFoundError('Driver');
@@ -35,7 +35,8 @@ export class ToggleDriverStatusUseCase {
         savedDriver.id,
         DriverActivityAction.STATUS_CHANGED,
         String(oldStatus),
-        String(isActive)
+        String(isActive),
+        { vehicle_plate: savedDriver.vehiclePlate }
       );
       await this.activityRepo.save(activity);
     }

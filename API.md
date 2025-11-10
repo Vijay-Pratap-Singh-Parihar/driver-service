@@ -55,32 +55,34 @@ curl -X GET http://localhost:3001/v1/drivers
 ```json
 [
   {
-    "id": "507f1f77bcf86cd799439011",
+    "id": "driver1",
+    "driver_id": "driver1",
     "name": "John Doe",
-    "vehicle": "Sedan",
-    "plate": "ABC123",
-    "isActive": true,
-    "vehicleType": "Car",
-    "vehicleModel": "Toyota Camry",
-    "vehicleYear": 2020,
-    "vehicleColor": "Blue",
-    "vehicleCapacity": 4,
-    "createdAt": "2024-01-15T10:30:00.000Z",
-    "updatedAt": "2024-01-15T10:30:00.000Z"
+    "phone": "555-0001",
+    "vehicle_type": "Car",
+    "vehicle_plate": "ABC123",
+    "is_active": true,
+    "vehicle_model": "Toyota Camry",
+    "vehicle_year": 2020,
+    "vehicle_color": "Blue",
+    "vehicle_capacity": 4,
+    "created_at": "2024-01-15T10:30:00.000Z",
+    "updated_at": "2024-01-15T10:30:00.000Z"
   },
   {
-    "id": "507f1f77bcf86cd799439012",
+    "id": "driver2",
+    "driver_id": "driver2",
     "name": "Jane Smith",
-    "vehicle": "SUV",
-    "plate": "XYZ789",
-    "isActive": true,
-    "vehicleType": "SUV",
-    "vehicleModel": "Honda CR-V",
-    "vehicleYear": 2021,
-    "vehicleColor": "White",
-    "vehicleCapacity": 5,
-    "createdAt": "2024-01-15T10:31:00.000Z",
-    "updatedAt": "2024-01-15T10:31:00.000Z"
+    "phone": "555-0002",
+    "vehicle_type": "SUV",
+    "vehicle_plate": "XYZ789",
+    "is_active": true,
+    "vehicle_model": "Honda CR-V",
+    "vehicle_year": 2021,
+    "vehicle_color": "White",
+    "vehicle_capacity": 5,
+    "created_at": "2024-01-15T10:31:00.000Z",
+    "updated_at": "2024-01-15T10:31:00.000Z"
   }
 ]
 ```
@@ -107,18 +109,19 @@ curl -X GET http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011
 
 ```json
 {
-  "id": "507f1f77bcf86cd799439011",
+  "id": "driver1",
+  "driver_id": "driver1",
   "name": "John Doe",
-  "vehicle": "Sedan",
-  "plate": "ABC123",
-  "isActive": true,
-  "vehicleType": "Car",
-  "vehicleModel": "Toyota Camry",
-  "vehicleYear": 2020,
-  "vehicleColor": "Blue",
-  "vehicleCapacity": 4,
-  "createdAt": "2024-01-15T10:30:00.000Z",
-  "updatedAt": "2024-01-15T10:30:00.000Z"
+  "phone": "555-0001",
+  "vehicle_type": "Car",
+  "vehicle_plate": "ABC123",
+  "is_active": true,
+  "vehicle_model": "Toyota Camry",
+  "vehicle_year": 2020,
+  "vehicle_color": "Blue",
+  "vehicle_capacity": 4,
+  "created_at": "2024-01-15T10:30:00.000Z",
+  "updated_at": "2024-01-15T10:30:00.000Z"
 }
 ```
 
@@ -145,15 +148,16 @@ Register a new driver in the system.
 curl -X POST http://localhost:3001/v1/drivers \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "driver1",
+    "driver_id": "driver1",
     "name": "John Doe",
-    "vehicle": "Sedan",
-    "plate": "ABC123",
-    "vehicleType": "Car",
-    "vehicleModel": "Toyota Camry",
-    "vehicleYear": 2020,
-    "vehicleColor": "Blue",
-    "vehicleCapacity": 4
+    "phone": "555-0001",
+    "vehicle_type": "Car",
+    "vehicle_plate": "ABC123",
+    "is_active": true,
+    "vehicle_model": "Toyota Camry",
+    "vehicle_year": 2020,
+    "vehicle_color": "Blue",
+    "vehicle_capacity": 4
   }'
 ```
 
@@ -163,10 +167,11 @@ curl -X POST http://localhost:3001/v1/drivers \
 curl -X POST http://localhost:3001/v1/drivers \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "driver1",
+    "driver_id": "driver1",
     "name": "John Doe",
-    "vehicle": "Sedan",
-    "plate": "ABC123"
+    "phone": "555-0001",
+    "vehicle_type": "Car",
+    "vehicle_plate": "ABC123"
   }'
 ```
 
@@ -174,18 +179,19 @@ curl -X POST http://localhost:3001/v1/drivers \
 
 ```json
 {
-  "id": "507f1f77bcf86cd799439011",
+  "id": "driver1",
+  "driver_id": "driver1",
   "name": "John Doe",
-  "vehicle": "Sedan",
-  "plate": "ABC123",
-  "isActive": true,
-  "vehicleType": "Car",
-  "vehicleModel": "Toyota Camry",
-  "vehicleYear": 2020,
-  "vehicleColor": "Blue",
-  "vehicleCapacity": 4,
-  "createdAt": "2024-01-15T10:30:00.000Z",
-  "updatedAt": "2024-01-15T10:30:00.000Z"
+  "phone": "555-0001",
+  "vehicle_type": "Car",
+  "vehicle_plate": "ABC123",
+  "is_active": true,
+  "vehicle_model": "Toyota Camry",
+  "vehicle_year": 2020,
+  "vehicle_color": "Blue",
+  "vehicle_capacity": 4,
+  "created_at": "2024-01-15T10:30:00.000Z",
+  "updated_at": "2024-01-15T10:30:00.000Z"
 }
 ```
 
@@ -194,7 +200,7 @@ curl -X POST http://localhost:3001/v1/drivers \
 ```json
 {
   "error": {
-    "message": "id, name, vehicle, plate are required",
+    "message": "driver_id, name, phone, vehicle_type, vehicle_plate are required",
     "statusCode": 400
   }
 }
@@ -205,7 +211,7 @@ curl -X POST http://localhost:3001/v1/drivers \
 ```json
 {
   "error": {
-    "message": "Plate number already exists",
+    "message": "vehicle_plate already exists",
     "statusCode": 409
   }
 }
@@ -220,40 +226,42 @@ Update an existing driver's information.
 ### Request
 
 ```bash
-curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3001/v1/drivers/driver1 \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Updated",
-    "vehicleType": "SUV",
-    "vehicleModel": "Toyota RAV4",
-    "vehicleYear": 2022,
-    "vehicleColor": "Red",
-    "vehicleCapacity": 5
+    "phone": "555-9999",
+    "vehicle_type": "SUV",
+    "vehicle_plate": "XYZ999",
+    "vehicle_model": "Toyota RAV4",
+    "vehicle_year": 2022,
+    "vehicle_color": "Red",
+    "vehicle_capacity": 5
   }'
 ```
 
 ### Update Profile Only
 
 ```bash
-curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Updated",
-    "vehicle": "SUV"
-  }'
+  curl -X PUT http://localhost:3001/v1/drivers/driver1 \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "John Updated",
+      "phone": "555-9999",
+      "vehicle_type": "SUV"
+    }'
 ```
 
 ### Update Vehicle Info Only
 
 ```bash
-curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3001/v1/drivers/driver1 \
   -H "Content-Type: application/json" \
   -d '{
-    "vehicleType": "SUV",
-    "vehicleModel": "Toyota RAV4",
-    "vehicleYear": 2022,
-    "vehicleColor": "Red",
-    "vehicleCapacity": 5
+    "vehicle_model": "Toyota RAV4",
+    "vehicle_year": 2022,
+    "vehicle_color": "Red",
+    "vehicle_capacity": 5
   }'
 ```
 
@@ -261,18 +269,19 @@ curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011 \
 
 ```json
 {
-  "id": "507f1f77bcf86cd799439011",
+  "id": "driver1",
+  "driver_id": "driver1",
   "name": "John Updated",
-  "vehicle": "Sedan",
-  "plate": "ABC123",
-  "isActive": true,
-  "vehicleType": "SUV",
-  "vehicleModel": "Toyota RAV4",
-  "vehicleYear": 2022,
-  "vehicleColor": "Red",
-  "vehicleCapacity": 5,
-  "createdAt": "2024-01-15T10:30:00.000Z",
-  "updatedAt": "2024-01-15T11:00:00.000Z"
+  "phone": "555-9999",
+  "vehicle_type": "SUV",
+  "vehicle_plate": "XYZ999",
+  "is_active": true,
+  "vehicle_model": "Toyota RAV4",
+  "vehicle_year": 2022,
+  "vehicle_color": "Red",
+  "vehicle_capacity": 5,
+  "created_at": "2024-01-15T10:30:00.000Z",
+  "updated_at": "2024-01-15T11:00:00.000Z"
 }
 ```
 
@@ -292,7 +301,7 @@ curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011 \
 ```json
 {
   "error": {
-    "message": "Plate number already exists",
+    "message": "vehicle_plate already exists",
     "statusCode": 400
   }
 }
@@ -339,20 +348,20 @@ Toggle a driver's active/inactive status.
 ### Request (Activate Driver)
 
 ```bash
-curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011/status \
+curl -X PUT http://localhost:3001/v1/drivers/driver1/status \
   -H "Content-Type: application/json" \
   -d '{
-    "isActive": true
+    "is_active": true
   }'
 ```
 
 ### Request (Deactivate Driver)
 
 ```bash
-curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011/status \
+curl -X PUT http://localhost:3001/v1/drivers/driver1/status \
   -H "Content-Type: application/json" \
   -d '{
-    "isActive": false
+    "is_active": false
   }'
 ```
 
@@ -360,18 +369,19 @@ curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011/status \
 
 ```json
 {
-  "id": "507f1f77bcf86cd799439011",
+  "id": "driver1",
+  "driver_id": "driver1",
   "name": "John Doe",
-  "vehicle": "Sedan",
-  "plate": "ABC123",
-  "isActive": false,
-  "vehicleType": "Car",
-  "vehicleModel": "Toyota Camry",
-  "vehicleYear": 2020,
-  "vehicleColor": "Blue",
-  "vehicleCapacity": 4,
-  "createdAt": "2024-01-15T10:30:00.000Z",
-  "updatedAt": "2024-01-15T11:00:00.000Z"
+  "phone": "555-0001",
+  "vehicle_type": "Car",
+  "vehicle_plate": "ABC123",
+  "is_active": false,
+  "vehicle_model": "Toyota Camry",
+  "vehicle_year": 2020,
+  "vehicle_color": "Blue",
+  "vehicle_capacity": 4,
+  "created_at": "2024-01-15T10:30:00.000Z",
+  "updated_at": "2024-01-15T11:00:00.000Z"
 }
 ```
 
@@ -391,7 +401,7 @@ curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011/status \
 ```json
 {
   "error": {
-    "message": "isActive must be boolean",
+    "message": "is_active must be boolean",
     "statusCode": 400
   }
 }
@@ -415,48 +425,51 @@ curl -X GET http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011/activity
 [
   {
     "id": "507f1f77bcf86cd799439020",
-    "driverId": "507f1f77bcf86cd799439011",
+    "driver_id": "driver1",
     "action": "CREATED",
-    "oldValue": null,
-    "newValue": null,
+    "old_value": null,
+    "new_value": null,
     "timestamp": "2024-01-15T10:30:00.000Z",
     "metadata": null
   },
   {
     "id": "507f1f77bcf86cd799439021",
-    "driverId": "507f1f77bcf86cd799439011",
+    "driver_id": "driver1",
     "action": "STATUS_CHANGED",
-    "oldValue": "true",
-    "newValue": "false",
+    "old_value": "true",
+    "new_value": "false",
     "timestamp": "2024-01-15T11:00:00.000Z",
-    "metadata": null
+    "metadata": {
+      "vehicle_plate": "ABC123"
+    }
   },
   {
     "id": "507f1f77bcf86cd799439022",
-    "driverId": "507f1f77bcf86cd799439011",
+    "driver_id": "driver1",
     "action": "VEHICLE_UPDATED",
-    "oldValue": null,
-    "newValue": null,
+    "old_value": null,
+    "new_value": null,
     "timestamp": "2024-01-15T11:30:00.000Z",
     "metadata": {
-      "vehicleType": "SUV",
-      "vehicleModel": "Toyota RAV4",
-      "vehicleYear": 2022,
-      "vehicleColor": "Red",
-      "vehicleCapacity": 5
+      "vehicle_type": "SUV",
+      "vehicle_model": "Toyota RAV4",
+      "vehicle_year": 2022,
+      "vehicle_color": "Red",
+      "vehicle_capacity": 5
     }
   },
   {
     "id": "507f1f77bcf86cd799439023",
-    "driverId": "507f1f77bcf86cd799439011",
+    "driver_id": "driver1",
     "action": "PROFILE_UPDATED",
-    "oldValue": null,
-    "newValue": null,
+    "old_value": null,
+    "new_value": null,
     "timestamp": "2024-01-15T12:00:00.000Z",
     "metadata": {
       "name": "John Updated",
-      "vehicle": "SUV",
-      "plate": "ABC123"
+      "phone": "555-9999",
+      "vehicle_type": "SUV",
+      "vehicle_plate": "XYZ999"
     }
   }
 ]
@@ -468,7 +481,7 @@ The following activity actions are tracked:
 
 - `CREATED` - Driver was registered
 - `STATUS_CHANGED` - Driver status (active/inactive) was changed
-- `PROFILE_UPDATED` - Driver profile (name, vehicle, plate) was updated
+- `PROFILE_UPDATED` - Driver profile (name, phone, vehicle_type, vehicle_plate) was updated
 - `VEHICLE_UPDATED` - Vehicle details were updated
 - `DELETED` - Driver was deleted
 
@@ -501,51 +514,53 @@ curl -X GET http://localhost:3001/health
 curl -X POST http://localhost:3001/v1/drivers \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "driver1",
+    "driver_id": "driver1",
     "name": "John Doe",
-    "vehicle": "Sedan",
-    "plate": "ABC123",
-    "vehicleType": "Car",
-    "vehicleModel": "Toyota Camry",
-    "vehicleYear": 2020,
-    "vehicleColor": "Blue",
-    "vehicleCapacity": 4
+    "phone": "555-0001",
+    "vehicle_type": "Car",
+    "vehicle_plate": "ABC123",
+    "vehicle_model": "Toyota Camry",
+    "vehicle_year": 2020,
+    "vehicle_color": "Blue",
+    "vehicle_capacity": 4
   }'
 ```
 
-**Save the driver ID from response** (e.g., `507f1f77bcf86cd799439011`)
+**Save the driver ID from response** (e.g., `driver1`)
 
 ### 3. Get the Driver
 
 ```bash
-curl -X GET http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011
+curl -X GET http://localhost:3001/v1/drivers/driver1
 ```
 
 ### 4. Update the Driver
 
 ```bash
-curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011 \
+curl -X PUT http://localhost:3001/v1/drivers/driver1 \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Updated",
-    "vehicleType": "SUV"
+    "phone": "555-9999",
+    "vehicle_type": "SUV",
+    "vehicle_plate": "XYZ999"
   }'
 ```
 
 ### 5. Toggle Driver Status
 
 ```bash
-curl -X PUT http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011/status \
+curl -X PUT http://localhost:3001/v1/drivers/driver1/status \
   -H "Content-Type: application/json" \
   -d '{
-    "isActive": false
+    "is_active": false
   }'
 ```
 
 ### 6. Get Activity History
 
 ```bash
-curl -X GET http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011/activity
+curl -X GET http://localhost:3001/v1/drivers/driver1/activity
 ```
 
 ### 7. List All Drivers
@@ -557,7 +572,7 @@ curl -X GET http://localhost:3001/v1/drivers
 ### 8. Delete the Driver
 
 ```bash
-curl -X DELETE http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011
+curl -X DELETE http://localhost:3001/v1/drivers/driver1
 ```
 
 ---
@@ -569,7 +584,7 @@ You can use shell variables to make testing easier:
 ```bash
 # Set base URL
 BASE_URL="http://localhost:3001"
-DRIVER_ID="507f1f77bcf86cd799439011"
+DRIVER_ID="driver1"
 
 # Health check
 curl -X GET $BASE_URL/health
@@ -580,7 +595,7 @@ curl -X GET $BASE_URL/v1/drivers/$DRIVER_ID
 # Update driver
 curl -X PUT $BASE_URL/v1/drivers/$DRIVER_ID \
   -H "Content-Type: application/json" \
-  -d '{"name": "Updated Name"}'
+  -d '{"name": "Updated Name", "phone": "555-9999"}'
 ```
 
 ---
@@ -593,8 +608,8 @@ For better readability, use `jq` to format JSON responses:
 # Install jq: brew install jq (macOS) or apt-get install jq (Linux)
 
 curl -X GET http://localhost:3001/v1/drivers | jq
-curl -X GET http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011 | jq
-curl -X GET http://localhost:3001/v1/drivers/507f1f77bcf86cd799439011/activity | jq
+curl -X GET http://localhost:3001/v1/drivers/driver1 | jq
+curl -X GET http://localhost:3001/v1/drivers/driver1/activity | jq
 ```
 
 ---
@@ -630,11 +645,11 @@ All errors follow this format:
 ## 📌 Notes
 
 - All timestamps are in ISO 8601 format (UTC)
-- Driver IDs are MongoDB ObjectIds (24 character hex strings)
-- Plate numbers must be unique across all drivers
-- The `isActive` field defaults to `true` when creating a new driver
+- `driver_id` values must be unique (we recommend using a UUID or slug)
+- `vehicle_plate` values must be unique across all drivers
+- The `is_active` field defaults to `true` when creating a new driver
 - Activity history is sorted by timestamp (newest first)
-- All vehicle fields are optional except for the base `vehicle` field
+- Extended vehicle fields (`vehicle_model`, `vehicle_year`, `vehicle_color`, `vehicle_capacity`) are optional
 
 ---
 

@@ -3,16 +3,16 @@ export interface DriverEvent {
   driverId: string;
   timestamp: string;
   data: {
-    id: string;
+    driver_id: string;
     name: string;
-    vehicle?: string;
-    plate?: string;
-    isActive?: boolean;
-    vehicleType?: string;
-    vehicleModel?: string;
-    vehicleYear?: number;
-    vehicleColor?: string;
-    vehicleCapacity?: number;
+    phone?: string;
+    vehicle_type?: string;
+    vehicle_plate?: string;
+    is_active?: boolean;
+    vehicle_model?: string;
+    vehicle_year?: number;
+    vehicle_color?: string;
+    vehicle_capacity?: number;
     [key: string]: any;
   };
 }
